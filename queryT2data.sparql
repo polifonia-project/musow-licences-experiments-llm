@@ -1,0 +1,25 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xyz:  <http://sparql.xyz/facade-x/data/>
+PREFIX fx:   <http://sparql.xyz/facade-x/ns/>
+
+SELECT ?resource 
+    (GROUP_CONCAT(?copyright_h; separator=" ") as ?copyright_g) 
+    (GROUP_CONCAT(?licence_h; separator=" ") as ?licence_g) 
+    (GROUP_CONCAT(?terms_h; separator=" ") as ?terms_g) 
+# ?licence_h ?terms_h
+WHERE {
+    SERVICE <x-sparql-anything:>{
+        fx:properties fx:location "./data/T2.csv" ; fx:csv.headers true .
+        [] xyz:resource ?resource ;
+            xyz:copyright ?copyright ;
+            xyz:licence ?licence ;
+            xyz:terms ?terms .
+    }
+    
+    BIND ( ! (?copyright = "" || ?copyright = "[]") AS ?copyright_h )
+    BIND ( ! (?licence = "" || ?licence = "[]") AS ?licence_h )
+    BIND ( ! (?terms = "" || ?terms = "[]") AS ?terms_h )
+} 
+group by ?resource
+
