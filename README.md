@@ -1,4 +1,26 @@
-# musoW terms KG
+---
+component-id: musow-licences
+type: Experiment
+name: "musoW licences from web pages with ChatGPT"
+related-components:
+- reuses:
+  - musow-dataset
+  - sparql-anything
+  - "Dalicc https://www.dalicc.net/"
+work-package:
+- WP2
+project: polifonia-project
+licence:
+- CC0Universal
+contributors:
+- Enrico Daga <https://github.com/enridaga>
+
+---
+
+# musoW licences from web pages with ChatGPT
+Experiments testing the application of Large Language Models (specifically the ChatGPT API) to extract copyright and licence information from web resources.
+
+The experiments use musoW and starts from a set of resources (web pages) whose licence was not specified in the existing metadata.
 
 ## Task 1: find links including licences and terms and conditions from a web page
 
