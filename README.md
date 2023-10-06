@@ -111,3 +111,7 @@ AFTER
 
 
 # musow-licences
+
+Generate the KG
+
+` fx -q queryMusoWLicences.sparql -o musow-licences.ttl`
