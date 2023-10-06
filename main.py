@@ -407,6 +407,45 @@ def generateT3ByResourceCSV():
     engine.run(q='queryT3data.sparql',o='data/T3_byResource.csv')
 
 
+def linkTolicences():
+    licy = yaml.load(fileToString('licences.yaml'), Loader=Loader)
+    #[' + item['code'] + '] ' + item['title'] + ' (' + item['publisher'] + ') ' + item['link'])
+    directory = str(pathlib.Path(__file__).parent.resolve()) 
+    with open(directory + '/musoW Licences LLM - T3R.csv', 'r', newline='') as csvfile:
+        t3rdata = csv.DictReader(csvfile, delimiter=',', quotechar='"')
+        with open(directory + '/LinkedLicences.csv', 'w', newline='') as csvfile:
+            llwriter = csv.writer(csvfile, delimiter=',',quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            llwriter.writerow(['resource','linked_g','codes'])
+            # Collect info for each resource
+            byResource = {}
+            for row in t3rdata:
+                r = row['resource']
+                # Linked (-1,0,1,2)?
+                lk = 'Linked (-1,0,1,2)?'
+                if row[lk] in ['1','2']:
+                    print(r,row[lk])
+                    lg = row['linked_g']
+                    ff = []
+                    for li in licy:
+                        #print(li)
+                        if li['code'] in lg:
+                            ff.append(li['code'])
+                    llwriter.writerow([r,lg," ".join(ff)])
+
+def buildRDF():
+    licy = yaml.load(fileToString('licences.yaml'), Loader=Loader)
+    directory = str(pathlib.Path(__file__).parent.resolve()) 
+    with open(directory + '/musoW Licences LLM - LinkedLicences.csv', 'r', newline='') as csvfile:
+        lldata = csv.DictReader(csvfile, delimiter=',', quotechar='"')
+        for row in lldata:
+            licences = (row['codes'] + row['manual']).split()
+            print(licences)
+
+#print(removeTags(getHTML("http://www.schubert-online.at/")))
+#countTokens("<!DOCTYPE html>\n\n<html>\n\n<body>\n<!-- This file lives in public/404.html -->\n<div class=\"navbar\" id=\"header-navbar\" role=\"navigation\">\n<div class=\"container\">\n<div class=\"row\" id=\"header-row1\">\n<div id=\"logo-col\">\n<a href=\"https://library.louisville.edu/home\">\n<img alt=\"U of L Libraries\" src=\"/logo-libraries-ALT_white_120w.png\"/>\n<div class=\"visible-xs\" id=\"logo-sm\">\n<img alt=\"U of L Libraries\" src=\"/logo-uofl-ligature-ALT_white_40w.png\"/>\n</div>\n</a>\n<div class=\"navbar-product-name\">\n<a href=\"http://digital.library.louisville.edu/\">\n              Digital Collections\n          </a>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div class=\"container\" id=\"content-wrapper\" role=\"main\">\n<div id=\"error-number\">404</div>\n<h1>The page you were looking for doesn't exist.</h1>\n<div class=\"error-image\">\n<img alt=\"unicorn\" src=\"/500-stephen-leonardi-LzGiBl8DRPM-unsplash-cropped.png\"/>\n</div>\n</div>\n</body>\n</html>\n")
+#print(removeAllTags("<!DOCTYPE html>\n\n<html>\n\n<body>\n<!-- This file lives in public/404.html -->\n<div class=\"navbar\" id=\"header-navbar\" role=\"navigation\">\n<div class=\"container\">\n<div class=\"row\" id=\"header-row1\">\n<div id=\"logo-col\">\n<a href=\"https://library.louisville.edu/home\">\n<img alt=\"U of L Libraries\" src=\"/logo-libraries-ALT_white_120w.png\"/>\n<div class=\"visible-xs\" id=\"logo-sm\">\n<img alt=\"U of L Libraries\" src=\"/logo-uofl-ligature-ALT_white_40w.png\"/>\n</div>\n</a>\n<div class=\"navbar-product-name\">\n<a href=\"http://digital.library.louisville.edu/\">\n              Digital Collections\n          </a>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div class=\"container\" id=\"content-wrapper\" role=\"main\">\n<div id=\"error-number\">404</div>\n<h1>The page you were looking for doesn't exist.</h1>\n<div class=\"error-image\">\n<img alt=\"unicorn\" src=\"/500-stephen-leonardi-LzGiBl8DRPM-unsplash-cropped.png\"/>\n</div>\n</div>\n</body>\n</html>\n"))
+
+################################################
 #executeTask1()
 #generateT1CSV()
 #executeTask2()
@@ -414,12 +453,12 @@ def generateT3ByResourceCSV():
 #executeTask3()
 #generateT3CSV()
 #generateT2ByResourceCSV()
-generateT3ByResourceCSV()
+#generateT3ByResourceCSV()
 
-#print(removeTags(getHTML("http://www.schubert-online.at/")))
-#countTokens("<!DOCTYPE html>\n\n<html>\n\n<body>\n<!-- This file lives in public/404.html -->\n<div class=\"navbar\" id=\"header-navbar\" role=\"navigation\">\n<div class=\"container\">\n<div class=\"row\" id=\"header-row1\">\n<div id=\"logo-col\">\n<a href=\"https://library.louisville.edu/home\">\n<img alt=\"U of L Libraries\" src=\"/logo-libraries-ALT_white_120w.png\"/>\n<div class=\"visible-xs\" id=\"logo-sm\">\n<img alt=\"U of L Libraries\" src=\"/logo-uofl-ligature-ALT_white_40w.png\"/>\n</div>\n</a>\n<div class=\"navbar-product-name\">\n<a href=\"http://digital.library.louisville.edu/\">\n              Digital Collections\n          </a>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div class=\"container\" id=\"content-wrapper\" role=\"main\">\n<div id=\"error-number\">404</div>\n<h1>The page you were looking for doesn't exist.</h1>\n<div class=\"error-image\">\n<img alt=\"unicorn\" src=\"/500-stephen-leonardi-LzGiBl8DRPM-unsplash-cropped.png\"/>\n</div>\n</div>\n</body>\n</html>\n")
-#print(removeAllTags("<!DOCTYPE html>\n\n<html>\n\n<body>\n<!-- This file lives in public/404.html -->\n<div class=\"navbar\" id=\"header-navbar\" role=\"navigation\">\n<div class=\"container\">\n<div class=\"row\" id=\"header-row1\">\n<div id=\"logo-col\">\n<a href=\"https://library.louisville.edu/home\">\n<img alt=\"U of L Libraries\" src=\"/logo-libraries-ALT_white_120w.png\"/>\n<div class=\"visible-xs\" id=\"logo-sm\">\n<img alt=\"U of L Libraries\" src=\"/logo-uofl-ligature-ALT_white_40w.png\"/>\n</div>\n</a>\n<div class=\"navbar-product-name\">\n<a href=\"http://digital.library.louisville.edu/\">\n              Digital Collections\n          </a>\n</div>\n</div>\n</div>\n</div>\n</div>\n<div class=\"container\" id=\"content-wrapper\" role=\"main\">\n<div id=\"error-number\">404</div>\n<h1>The page you were looking for doesn't exist.</h1>\n<div class=\"error-image\">\n<img alt=\"unicorn\" src=\"/500-stephen-leonardi-LzGiBl8DRPM-unsplash-cropped.png\"/>\n</div>\n</div>\n</body>\n</html>\n"))
+#linkTolicences()
+# 
 
+buildRDF()
 
 
 

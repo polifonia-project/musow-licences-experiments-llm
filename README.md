@@ -7,6 +7,7 @@ related-components:
   - musow-dataset
   - sparql-anything
   - "Dalicc https://www.dalicc.net/"
+  - "OpenAI platform https://platform.openai.com/"
 work-package:
 - WP2
 project: polifonia-project
@@ -23,6 +24,8 @@ Experiments testing the application of Large Language Models (specifically the C
 The experiments use musoW and starts from a set of resources (web pages) whose licence was not specified in the existing metadata.
 
 ## Task 1: find links including licences and terms and conditions from a web page
+
+From the list of resource without an explicit licence...
 
 ### Prompt engineering
 
