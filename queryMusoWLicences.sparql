@@ -1,0 +1,36 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
+PREFIX fx:   <http://sparql.xyz/facade-x/ns/>
+PREFIX xyz:  <http://sparql.xyz/facade-x/data/>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX dc:   <http://purl.org/dc/elements/1.1/>
+PREFIX reco:   <http://purl.org/research-ecosystem/>
+PREFIX pl:   <http://w3id.org/polifonia/licences/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX schema: <https://schema.org/>
+PREFIX apf: <http://jena.hpl.hp.com/ARQ/property#>
+
+
+CONSTRUCT {
+	?musowEntity a reco:Resource, odrl:Asset .
+	?daliccLicence odrl:asset ?musowEntity .		
+} 
+#SELECT ?id ?code
+WHERE {
+    SERVICE <x-sparql-anything:> {
+        fx:properties fx:location "./musoW Licences LLM - LinkedLicences.csv" ; fx:csv.headers true.
+        # resource,linked_g,codes,manual
+        [] xyz:resource ?id ; xyz:codes ?codes ;xyz:manual ?manual .
+        BIND ( fx:String.trim(CONCAT(?codes, " ", ?manual)) as ?licenceinfo )
+    }
+    
+    ?code apf:strSplit (?licenceinfo " ") 
+    BIND( fx:entity("https://w3id.org/musow/", ?id, "/") AS ?musowEntity ) .
+    BIND( fx:entity("http://dalicc.net/licenselibrary/", ?code ) AS ?daliccLicence ) .
+    
+}
