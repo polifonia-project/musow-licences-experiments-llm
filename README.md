@@ -12,7 +12,7 @@ work-package:
 - WP2
 project: polifonia-project
 licence:
-- CC0Universal
+- "CC-BY_v4"
 contributors:
 - Enrico Daga <https://github.com/enridaga>
 
@@ -114,4 +114,4 @@ AFTER
 
 Generate the KG
 
-` fx -q queryMusoWLicences.sparql -o musow-licences.ttl`
+` fx -q queryMusoWLicences.sparql -o musow-licences-llm.ttl`
