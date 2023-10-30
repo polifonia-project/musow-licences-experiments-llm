@@ -1,0 +1,17 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <https://schema.org/>
+SELECT *
+  WHERE {
+  ?resource
+    schema:license ?licence .
+  optional { ?resource schema:mainEntityOfPage ?webpage}
+  optional { ?resource rdfs:label ?label}
+  optional { ?resource schema:category ?category }
+  optional { ?resource schema:audience ?audience }
+  optional { ?resource schema:genre ?genre }
+  optional { ?resource a ?type }
+  optional { ?resource schema:additionalType ?type }
+  optional { ?resource schema:audience ?audience }
+  optional { ?licence rdfs:label ?licenceLabel}
+} 
