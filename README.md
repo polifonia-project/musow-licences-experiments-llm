@@ -19,7 +19,7 @@ contributors:
 ---
 
 # musoW licences from web pages with ChatGPT
-Experiments testing the application of Large Language Models (specifically the ChatGPT API) to extract copyright and licence information from web resources.
+Experiments testing the application of Large Language Models (specifically the ChatGPT API provided by Open AI) to extract copyright and licence information from web resources.
 
 The experiments use musoW and starts from a set of resources (web pages) whose licence was not specified in the existing metadata.
 
